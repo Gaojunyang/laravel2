@@ -1,3 +1,3 @@
 <?php
 
-Route::get('users/{user}', 'UsersController@index')->name('users.index');
+Route::get('/', 'PagesController@root')->name('pages.root');
