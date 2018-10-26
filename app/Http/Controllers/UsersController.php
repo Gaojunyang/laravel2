@@ -8,6 +8,11 @@ use App\Http\Requests\UserRequest;
 use App\Handlers\ImageUploadHandler;
 class UsersController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth', ['except'=>['show']]);
+    }
+
     public function show(User $user)
     {
         return view('users.show', compact('user'));
@@ -15,11 +20,14 @@ class UsersController extends Controller
 
     public function edit(User $user)
     {
+        //授权策略，判断用户是否登录，在app/Policies/UserPolicy.php中判断，在app/Providers/AuthServiceProvider.php中的policies注册授权
+        $this->authorize('update', $user);
         return view('users.edit', compact('user'));
     }
 
     public function update(UserRequest $request, ImageUploadHandler $uploader, User $user)
     {
+        $this->authorize('update', $user);
         $data = $request->all();
 
         if ($request->avatar) {
