@@ -26,4 +26,10 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    //一对多关联 ：一个用户拥有多个主题，在 Eloquent 中使用 hasMany() 方法进行关联
+    public function topics()
+    {
+        return $this->hasMany(Topic::class);
+    }
 }
